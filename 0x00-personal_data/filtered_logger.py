@@ -43,7 +43,14 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        """Filter values in incomming log records using `filter_datum`"""
-        msg = super().format(record)
+        """Filter values in incomming log records using `filter_datum`.
+
+        Args:
+            record (logging.LogRecord): contains all the info pertinent
+                                        to the event being logged.
+        Return:
+            str: obfuscated log message.
+        """
+        msg = super(RedactingFormatter, self).format(record)
         return filter_datum(self.fields, self.REDACTION,
                             msg, self.SEPARATOR)
