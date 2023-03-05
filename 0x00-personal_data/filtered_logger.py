@@ -5,7 +5,7 @@ Regex is used to filter out log messages of certain field values.
 """
 import logging
 import re
-from typing import List, Optional, Sequence
+from typing import List
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -37,8 +37,13 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: Sequence[str]) -> None:
-        """Initialization of variables."""
+    def __init__(self, fields: List[str]) -> None:
+        """Initialization of variables.
+
+        Args:
+            fields (List[str]): list of strings representing the
+                                fields to obfuscate.
+        """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
