@@ -36,7 +36,7 @@ def not_found(error) -> str:
     return jsonify({"error": "Forbidden"}), 403
 
 
-@app.before_request()
+@app.before_request
 def before_request():
     """Filter each request looking for authorization key."""
     if auth is not None:
