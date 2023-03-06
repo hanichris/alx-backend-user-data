@@ -8,6 +8,9 @@ import re
 from typing import List
 
 
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """Returns an obfuscated log message.
@@ -59,3 +62,7 @@ class RedactingFormatter(logging.Formatter):
         msg = super(RedactingFormatter, self).format(record)
         return filter_datum(self.fields, self.REDACTION,
                             msg, self.SEPARATOR)
+
+
+def get_logger() -> logging.Logger:
+    pass
