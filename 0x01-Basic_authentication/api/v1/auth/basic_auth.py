@@ -3,8 +3,9 @@
 
 This class serves as an extension of the base class `Auth.`
 """
-from api.v1.auth.auth import Auth
+from .auth import Auth
 
 
 class BasicAuth(Auth):
+    """Extends the management done by the `Auth` class"""
     pass
