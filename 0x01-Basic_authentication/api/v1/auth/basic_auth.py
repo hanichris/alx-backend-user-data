@@ -104,9 +104,12 @@ class BasicAuth(Auth):
         print(f"I've been called!!!!\n{auth_header}")
         if auth_header is not None:
             encoded = self.extract_base64_authorization_header(auth_header)
+            print(f'encoded: {encoded}')
             if encoded is not None:
                 decoded = self.decode_base64_authorization_header(encoded)
+                print(f'decoded: {decoded}')
                 if decoded is not None:
                     email, pwd = self.extract_user_credentials(decoded)
+                    print(f'email: {email}, pwd: {pwd}')
                     if email and pwd:
                         return self.user_object_from_credentials(email, pwd)
