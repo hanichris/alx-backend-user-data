@@ -46,7 +46,7 @@ class BasicAuth(Auth):
             return None
         try:
             decoded_value = base64_authorization_header.encode()
-            decoded_value = base64.b64decode(base64_authorization_header)
+            decoded_value = base64.b64decode(decoded_value)
         except binascii.Error:
             return None
         else:
