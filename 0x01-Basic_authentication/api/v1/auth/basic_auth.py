@@ -101,6 +101,7 @@ class BasicAuth(Auth):
     def current_user(self, request=None) -> TypeVar('User'):
         """Return the `User` instance for a request."""
         auth_header = self.authorization_header(request)
+        print("I've been called!!!!")
         if auth_header is not None:
             encoded = self.extract_base64_authorization_header(auth_header)
             if encoded is not None:
