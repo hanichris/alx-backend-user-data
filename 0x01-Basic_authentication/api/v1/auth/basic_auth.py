@@ -56,7 +56,7 @@ class BasicAuth(Auth):
         """Return the username and email from a decoded base64 string.
 
         Args:
-            decoded_base64_authorization_header (str): decode base64 string.
+            decoded_base64_authorization_header (str): decoded base64 string.
         Return
             tuple(str, str): username, password
         """
@@ -64,7 +64,8 @@ class BasicAuth(Auth):
             return None, None
         if type(decoded_base64_authorization_header) is not str:
             return None, None
-        values_list = decoded_base64_authorization_header.split(':')
+        values_list = decoded_base64_authorization_header.split(':',
+                                                                maxsplit=1)
         if len(values_list) != 2:
             return None, None
         return values_list[0], values_list[1]
@@ -95,3 +96,15 @@ class BasicAuth(Auth):
             return None
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Return the `User` instance for a request."""
+        auth_header = self.authorization_header(request)
+        if auth_header is not None:
+            encoded = self.extract_base64_authorization_header(auth_header)
+            if encoded is not None:
+                decoded = self.decode_base64_authorization_header(encoded)
+                if decoded is not None:
+                    email, pwd = self.extract_user_credentials(decoded)
+                    if email and pwd:
+                        return self.user_object_from_credentials(email, pwd)
