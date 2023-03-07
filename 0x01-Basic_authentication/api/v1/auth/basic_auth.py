@@ -6,7 +6,8 @@ This class serves as an extension of the base class `Auth.`
 from .auth import Auth
 import base64
 import binascii
-from typing import Tuple
+from models.user import User
+from typing import Tuple, TypeVar
 
 
 class BasicAuth(Auth):
@@ -67,3 +68,22 @@ class BasicAuth(Auth):
         if len(values_list) != 2:
             return None, None
         return values_list[0], values_list[1]
+    
+    def user_object_from_credentials(self,
+                                     user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
+        """Return the `User` instance based on their password & email.
+
+        Args:
+            user_email (str): user's email.
+            user_pwd (str): user's password.
+        Return:
+            TypeVar('User'): instance of the user with the given name
+                             and password.
+        """
+        if user_email is None or type(user_email) is not str:
+            return None
+        if user_pwd is None or type(user_pwd) is not str:
+            return None
+        users = User.search({'email': user_email})
+        print(users)
