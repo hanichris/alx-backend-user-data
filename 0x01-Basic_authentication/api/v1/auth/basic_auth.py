@@ -68,7 +68,7 @@ class BasicAuth(Auth):
         if len(values_list) != 2:
             return None, None
         return values_list[0], values_list[1]
-    
+
     def user_object_from_credentials(self,
                                      user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
