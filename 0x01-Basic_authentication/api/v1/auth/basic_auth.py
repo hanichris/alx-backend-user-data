@@ -45,6 +45,7 @@ class BasicAuth(Auth):
         if type(base64_authorization_header) is not str:
             return None
         try:
+            decoded_value = base64_authorization_header.encode()
             decoded_value = base64.b64decode(base64_authorization_header)
         except binascii.Error:
             return None
