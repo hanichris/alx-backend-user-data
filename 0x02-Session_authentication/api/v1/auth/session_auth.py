@@ -4,6 +4,8 @@
 This class serves as an extension of the base class `Auth.`
 """
 from .auth import Auth
+from models.user import User
+from typing import TypeVar
 import uuid
 
 
@@ -31,9 +33,27 @@ class SessionAuth(Auth):
         return session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
-        """Obtain the `user_id` referrenced by the `session_id`."""
+        """Obtain the `user_id` referrenced by the `session_id`.
+
+        Args:
+            session_id (str): string representation of a session id.
+        Return:
+            str: string representation of the user's id.
+        """
         if session_id is None:
             return None
         if type(session_id) is not str:
             return None
         return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Obtain a `User` instance based on the cookie `_my_session_id`.
+
+        Args:
+            request (request): request that was made.
+        Return:
+            User: instance of User class.
+        """
+        session_id = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(session_id)
+        return User.get(user_id)
