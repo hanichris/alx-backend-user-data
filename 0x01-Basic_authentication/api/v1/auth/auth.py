@@ -18,6 +18,7 @@ class Auth:
         for entry in excluded_paths:
             if entry[-1] == '*' and path.startswith(entry[:-1]):
                 return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """Obtain the value of the authorization key from the request."""
