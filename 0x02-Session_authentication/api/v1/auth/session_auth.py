@@ -3,7 +3,7 @@
 
 This class serves as an extension of the base class `Auth.`
 """
-from auth import Auth
+from .auth import Auth
 
 
 class SessionAuth(Auth):
