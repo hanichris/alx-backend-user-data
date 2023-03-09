@@ -47,6 +47,7 @@ def not_found(error) -> str:
 def before_request():
     """Filter each request looking for authorization key."""
     if auth is not None:
+        setattr(request, "current_user", auth.current_user(request))
         if auth.require_auth(request.path,
                              ['/api/v1/status/',
                               '/api/v1/unauthorized/',
