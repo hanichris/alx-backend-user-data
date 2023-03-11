@@ -39,7 +39,10 @@ class SessionDBAuth(SessionExpAuth):
         """
         if session_id is None or type(session_id) is not str:
             return None
-        users = UserSession.search({'session_id': session_id})
+        try:
+            users = UserSession.search({'session_id': session_id})
+        except Exception:
+            return None
         if users == []:
             return None
         created_at = users[0].created_at
@@ -61,7 +64,10 @@ class SessionDBAuth(SessionExpAuth):
         cookie = self.session_cookie(request)
         if cookie is None:
             return False
-        users = UserSession.search({'session_id': cookie})
+        try:
+            users = UserSession.search({'session_id': cookie})
+        except Exception:
+            return False
         if users == []:
             return False
         users[0].remove()
