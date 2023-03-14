@@ -55,11 +55,4 @@ class DB:
         rows and `sqlalchemy.orm.exc.MultipleResultsFound` if multiple
         object identities are return.
         """
-        kwargs_set = set(kwargs)
-        users_set = set(User.__dict__)
-        if kwargs_set.intersection(users_set) == set():
-            raise InvalidRequestError
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if user is None:
-            raise NoResultFound
-        return user
+        return self._session.query(User).filter_by(**kwargs).one()
