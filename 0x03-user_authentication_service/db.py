@@ -44,3 +44,13 @@ class DB:
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs):
+        """Find the first row found in `users` table.
+
+        Returns exactly one result or raises an exception. Raises
+        `sqlalchemy.orm.exc.NoResultFound` if the query selects no
+        rows and `sqlalchemy.orm.exc.MultipleResultsFound` if multiple
+        object identities are return.
+        """
+        return self._session.query(User).filter_by(**kwargs).one()
