@@ -4,6 +4,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.session import Session
 
 from typing import TypeVar
@@ -53,4 +54,8 @@ class DB:
         rows and `sqlalchemy.orm.exc.MultipleResultsFound` if multiple
         object identities are return.
         """
+        kwargs_set = set(kwargs.items())
+        users_set = set(User.__dict__.items())
+        if kwargs_set.intersection(users_set) == set():
+            raise InvalidRequestError
         return self._session.query(User).filter_by(**kwargs).one()
