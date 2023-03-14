@@ -40,7 +40,9 @@ class DB:
             User
         """
         new_user = User(email=email, hashed_password=hashed_password)
-        with self._session as session:
-            session.add(new_user)
-            # session.commit()
+        # with self._session as session:
+        #     session.add(new_user)
+        #     # session.commit()
+        # with self._session as session:
+
         return new_user
