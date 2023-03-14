@@ -40,7 +40,8 @@ class DB:
             User
         """
         new_user = User(email=email, hashed_password=hashed_password)
-        with self.__session as session:
-            session.add(new_user)
-            session.commit()
-        return new_user
+        print(f"Type of session: {type(self.__session)}")
+        # with self.__session as session:
+        #     session.add(new_user)
+        #     session.commit()
+        # return new_user
