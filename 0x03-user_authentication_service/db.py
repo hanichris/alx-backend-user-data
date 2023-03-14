@@ -57,5 +57,6 @@ class DB:
         kwargs_set = set(kwargs)
         users_set = set(User.__dict__)
         if kwargs_set.intersection(users_set) == set():
+            print(f"No matching column found.")
             raise InvalidRequestError
         return self._session.query(User).filter_by(**kwargs).one()
