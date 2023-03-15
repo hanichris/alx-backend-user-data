@@ -69,8 +69,9 @@ class DB:
             user = self.find_user_by(id=user_id)
         except NoResultFound:
             raise ValueError
-        print(f'User attributes: {user.__dict__}')
-        # kwargs_set = set(kwargs)
-        # user_attrs = set(user.__dict__)
-        # if kwargs_set.difference(user_attrs) is not set():
-        #     raise ValueError
+        kwargs_set = set(kwargs)
+        user_attrs = set(user.__dict__)
+        if not kwargs_set.issubset(user_attrs):
+            raise ValueError
+        user.__dict__.update(kwargs)
+        self._session.commit()
