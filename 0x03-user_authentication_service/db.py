@@ -66,7 +66,7 @@ class DB:
                            to update.
         """
         try:
-            find_user = self.find_user_by(id=user_id)
+            user = self.find_user_by(id=user_id)
         except NoResultFound:
             raise ValueError
-        print(f'User_id: {find_user.id}')
+        print(f'User type: {type(user)}')
