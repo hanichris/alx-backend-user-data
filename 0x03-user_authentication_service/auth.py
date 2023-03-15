@@ -4,6 +4,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 import bcrypt
 from typing import TypeVar
+from uuid import uuid4
 
 from db import DB
 from user import User
@@ -62,3 +63,7 @@ class Auth:
         except NoResultFound:
             return False
         return bcrypt.checkpw(password.encode(), user.hashed_password)
+
+    def _generate_uuid(self) -> str:
+        """Generate and return string representation of a UUID"""
+        return str(uuid4())
