@@ -56,3 +56,17 @@ class DB:
         object identities are return.
         """
         return self._session.query(User).filter_by(**kwargs).one()
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update a user's attributes.
+
+        Args:
+            user_id (int): user's id.
+            kwargs (dict): keyword arguments representing the attributes
+                           to update.
+        """
+        try:
+            find_user = self.find_user_by(id=user_id)
+        except NoResultFound:
+            raise ValueError
+        print(f'User_id: {find_user.id}')
