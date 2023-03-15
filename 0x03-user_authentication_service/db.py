@@ -69,4 +69,8 @@ class DB:
             user = self.find_user_by(id=user_id)
         except NoResultFound:
             raise ValueError
-        print(f'User type: {type(user)}')
+        print(f'User attributes: {user.__dict__}')
+        # kwargs_set = set(kwargs)
+        # user_attrs = set(user.__dict__)
+        # if kwargs_set.difference(user_attrs) is not set():
+        #     raise ValueError
