@@ -3,7 +3,7 @@
 from sqlalchemy.orm.exc import NoResultFound
 
 import bcrypt
-from typing import Optional
+from typing import Union
 from uuid import uuid4
 
 from db import DB
@@ -69,7 +69,7 @@ class Auth:
             return False
         return bcrypt.checkpw(password.encode(), user.hashed_password)
 
-    def create_session(self, email: str) -> Optional[str]:
+    def create_session(self, email: str) -> Union[str, None]:
         """Create a session id for the supplied email.
 
         Args:
