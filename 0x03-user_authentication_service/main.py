@@ -64,7 +64,7 @@ def update_password(email: str, reset_token: str, new_password: str) -> None:
 if __name__ == "__main__":
 
     register_user(EMAIL, PASSWD)
-    # log_in_wrong_password(EMAIL, NEW_PASSWD)
+    log_in_wrong_password(EMAIL, NEW_PASSWD)
     # profile_unlogged()
     # session_id = log_in(EMAIL, PASSWD)
     # profile_logged(session_id)
