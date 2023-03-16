@@ -74,6 +74,8 @@ class Auth:
 
         Args:
             email (str): user's email address
+        Return:
+            Optional[str]: the created session_id or None if no user is found.
         """
         try:
             user = self._db.find_user_by(email=email)
