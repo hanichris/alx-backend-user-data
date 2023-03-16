@@ -38,11 +38,23 @@ def log_in_wrong_password(email: str, password: str) -> None:
 
 
 def log_in(email: str, password: str) -> str:
-    pass
+    """Test login functionality with the right credentials.
+
+    Args:
+        email (str): user's email address.
+        password (str): user's password.
+    """
+    payload = {'email': email, 'password': password}
+    resp = requests.post(f'{URL}/sessions', data=payload)
+    assert resp.status_code == 200
+    assert resp.json() == {'email': email, 'message': 'logged in'}
+    return resp.cookies.get('session_id')
 
 
 def profile_unlogged() -> None:
-    pass
+    """Test getting a user's profile while not logged in."""
+    resp = requests.get(f'{URL}/profile')
+    assert resp.status_code == 403
 
 
 def profile_logged(session_id: str) -> None:
@@ -65,8 +77,8 @@ if __name__ == "__main__":
 
     register_user(EMAIL, PASSWD)
     log_in_wrong_password(EMAIL, NEW_PASSWD)
-    # profile_unlogged()
-    # session_id = log_in(EMAIL, PASSWD)
+    profile_unlogged()
+    session_id = log_in(EMAIL, PASSWD)
     # profile_logged(session_id)
     # log_out(session_id)
     # reset_token = reset_password_token(EMAIL)
