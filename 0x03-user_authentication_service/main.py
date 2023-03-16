@@ -66,6 +66,7 @@ def profile_logged(session_id: str) -> None:
     cookie = {'session_id': session_id}
     resp = requests.get(f'{URL}/profile', cookies=cookie)
     assert resp.status_code == 200
+    assert 'email' in resp.json()
 
 
 def log_out(session_id: str) -> None:
