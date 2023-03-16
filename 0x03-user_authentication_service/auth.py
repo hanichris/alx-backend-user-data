@@ -77,14 +77,16 @@ class Auth:
         Return:
             Optional[str]: the created session_id or None if no user is found.
         """
+        user = None
         try:
             user = self._db.find_user_by(email=email)
         except NoResultFound:
             return None
-
-        sess_id = _generate_uuid()
-        self._db.update_user(user.id, session_id=sess_id)
-        return sess_id
+        if user is None:
+            return None
+        session_id = _generate_uuid()
+        self._db.update_user(user.id, session_id=session_id)
+        return session_id
 
     def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
         """Get the user corresponding to a particular `session_id`.
@@ -95,6 +97,7 @@ class Auth:
             User: the user corresponding to the given session id.
             None: if the user is not found or the `session_id` is None.
         """
+        user = None
         if session_id is None:
             return None
         try:
