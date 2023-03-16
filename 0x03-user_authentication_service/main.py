@@ -69,7 +69,18 @@ def profile_logged(session_id: str) -> None:
 
 
 def log_out(session_id: str) -> None:
-    pass
+    """Test logged out functionality.
+
+    Args:
+        session_id (str): session id to expire.
+    """
+    cookie = {'session_id': session_id}
+    resp = requests.delete(f'URL', cookies=cookie)
+    if resp.status_code == 302:
+        print('Redirection')
+        assert resp.url == f'{URL}/'
+    else:
+        assert resp.status_code == 200
 
 
 def reset_password_token(email: str) -> str:
@@ -87,7 +98,7 @@ if __name__ == "__main__":
     profile_unlogged()
     session_id = log_in(EMAIL, PASSWD)
     profile_logged(session_id)
-    # log_out(session_id)
+    log_out(session_id)
     # reset_token = reset_password_token(EMAIL)
     # update_password(EMAIL, reset_token, NEW_PASSWD)
     # log_in(EMAIL, NEW_PASSWD)
