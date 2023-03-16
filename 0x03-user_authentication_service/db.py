@@ -69,9 +69,9 @@ class DB:
             user = self.find_user_by(id=user_id)
         except NoResultFound:
             raise ValueError
-        kwargs_set = set(kwargs.keys())
-        user_attrs = set(user.__dict__.keys())
-        if kwargs_set.issubset(user_attrs) is False:
-            raise ValueError
-        user.__dict__.update(kwargs)
+        for k, v in kwargs.items():
+            if hasattr(user, k):
+                setattr(user, k, v)
+            else:
+                raise ValueError
         self._session.commit()
