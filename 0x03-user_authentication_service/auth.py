@@ -79,7 +79,7 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-        except Exception:
+        except NoResultFound:
             return None
         sess_id = _generate_uuid()
         self._db.update_user(user.id, session_id=sess_id)
@@ -98,7 +98,7 @@ class Auth:
             return None
         try:
             user = self._db.find_user_by(session_id=session_id)
-        except Exception:
+        except NoResultFound:
             return None
         return user
 
@@ -108,4 +108,4 @@ class Auth:
         Args:
             user_id (int): user's id.
         """
-        pass
+        self._db.update_user(user_id, session_id=None)
