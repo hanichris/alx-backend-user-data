@@ -78,7 +78,6 @@ def log_out(session_id: str) -> None:
     cookie = {'session_id': session_id}
     resp = requests.delete(f'{URL}/sessions', cookies=cookie)
     if resp.status_code == 302:
-        print('Redirection')
         assert resp.url == f'{URL}/'
     else:
         assert resp.status_code == 200
