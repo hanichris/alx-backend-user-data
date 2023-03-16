@@ -33,8 +33,10 @@ def login_user():
     if not AUTH.valid_login(email, pwd):
         abort(401)
     sess_id = AUTH.create_session(email)
-    return jsonify({"email": f"{email}",
-                    "message": "logged in"}).set_cookie('session_id', sess_id)
+    resp = jsonify({"email": f"{email}",
+                    "message": "logged in"})
+    resp.set_cookie('session_id', sess_id)
+    return resp
 
 
 if __name__ == '__main__':
