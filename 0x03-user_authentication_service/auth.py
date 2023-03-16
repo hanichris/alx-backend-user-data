@@ -3,7 +3,7 @@
 from sqlalchemy.orm.exc import NoResultFound
 
 import bcrypt
-from typing import Optional
+from typing import Optional, Union
 from uuid import uuid4
 
 from db import DB
@@ -86,7 +86,7 @@ class Auth:
         self._db.update_user(user.id, session_id=sess_id)
         return sess_id
 
-    def get_user_from_session_id(self, session_id: str) -> Optional[User]:
+    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
         """Get the user corresponding to a particular `session_id`.
 
         Args:
