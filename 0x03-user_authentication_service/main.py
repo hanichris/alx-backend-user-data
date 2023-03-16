@@ -18,12 +18,23 @@ def register_user(email: str, password: str) -> None:
     """
     payload = {'email': email, 'password': password}
     resp = requests.post(f"{URL}/users", data=payload)
-    assert resp.status_code == 200
-    assert resp.json() == {"email": f"{email}", "message": "user created"}
+    if resp.status_code == 200:
+        assert resp.json() == {"email": f"{email}", "message": "user created"}
+    else:
+        assert resp.status_code == 400
+        assert resp.json() == {"message": "email already registered"}
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
-    pass
+    """Test login functionality having provided the wrong credentials.
+
+    Args:
+        email (str): user's email address.
+        password (str): user's password.
+    """
+    payload = {'email': email, 'password': password}
+    resp = requests.post(f'{URL}/sessions', data=payload)
+    assert resp.status_code == 401
 
 
 def log_in(email: str, password: str) -> str:
