@@ -58,7 +58,14 @@ def profile_unlogged() -> None:
 
 
 def profile_logged(session_id: str) -> None:
-    pass
+    """Test getting a user's profile while logged in.
+
+    Args:
+        session_id (str): session id corresponding to a logged in user.
+    """
+    cookie = {'session_id': session_id}
+    resp = requests.get(f'{URL}/profile', cookies=cookie)
+    assert resp.status_code == 200
 
 
 def log_out(session_id: str) -> None:
@@ -79,7 +86,7 @@ if __name__ == "__main__":
     log_in_wrong_password(EMAIL, NEW_PASSWD)
     profile_unlogged()
     session_id = log_in(EMAIL, PASSWD)
-    # profile_logged(session_id)
+    profile_logged(session_id)
     # log_out(session_id)
     # reset_token = reset_password_token(EMAIL)
     # update_password(EMAIL, reset_token, NEW_PASSWD)
