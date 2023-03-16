@@ -55,14 +55,7 @@ class DB:
         rows and `sqlalchemy.orm.exc.MultipleResultsFound` if multiple
         object identities are return.
         """
-        all_users = self._session.query(User)
-        for k, v in kwargs.items():
-            if k not in User.__dict__:
-                raise InvalidRequestError
-            for usr in all_users:
-                if getattr(usr, k) == v:
-                    return usr
-        raise NoResultFound
+        return self._session.query(User).filter_by(**kwargs).one()
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user's attributes.
