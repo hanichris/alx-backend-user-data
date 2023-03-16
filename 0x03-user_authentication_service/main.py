@@ -84,11 +84,35 @@ def log_out(session_id: str) -> None:
 
 
 def reset_password_token(email: str) -> str:
-    pass
+    """Test password reset functionality.
+
+    Args:
+        email (str): user's email address.
+    """
+    payload = {'email': email}
+    resp = requests.post(f'{URL}/reset_password', data=payload)
+    if resp.status_code == 200:
+        return resp.json().get('reset_token')
+    assert resp.status_code == 403
 
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
-    pass
+    """Test update password functionality.
+
+    Args:
+        email (str): user's email address.
+        reset_token (str): reset token for specific user.
+        new_password (str): user's new password.
+    """
+    payload = {'email': email,
+               'reset_token': reset_token,
+               'new_password': new_password}
+    resp = requests.put(f'{URL}/reset_password', data=payload)
+    if resp.status_code == 200:
+        assert resp.json() == {"email": email,
+                               "message": "Password updated"}
+    else:
+        assert resp.status_code == 403
 
 
 if __name__ == "__main__":
@@ -99,6 +123,6 @@ if __name__ == "__main__":
     session_id = log_in(EMAIL, PASSWD)
     profile_logged(session_id)
     log_out(session_id)
-    # reset_token = reset_password_token(EMAIL)
-    # update_password(EMAIL, reset_token, NEW_PASSWD)
-    # log_in(EMAIL, NEW_PASSWD)
+    reset_token = reset_password_token(EMAIL)
+    update_password(EMAIL, reset_token, NEW_PASSWD)
+    log_in(EMAIL, NEW_PASSWD)
