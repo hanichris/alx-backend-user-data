@@ -66,12 +66,12 @@ class DB:
                            to update.
         """
         try:
-            usr = self.find_user_by(id=user_id)
+            user = self.find_user_by(id=user_id)
         except NoResultFound:
-            raise ValueError()
-        for k, v in kwargs.items():
-            if hasattr(usr, k):
-                setattr(usr, k, v)
-            else:
-                raise ValueError
+            raise ValueError
+        kwargs_set = set(kwargs)
+        user_attrs = set(user.__dict__)
+        if not kwargs_set.issubset(user_attrs):
+            raise ValueError
+        user.__dict__.update(kwargs)
         self._session.commit()
