@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.session import Session
 
 from typing import TypeVar
@@ -54,7 +55,14 @@ class DB:
         rows and `sqlalchemy.orm.exc.MultipleResultsFound` if multiple
         object identities are return.
         """
-        return self._session.query(User).filter_by(**kwargs).one()
+        all_users = self._session.query(User)
+        for k, v in kwargs.items():
+            if k not in User.__dict__:
+                raise InvalidRequestError
+            for usr in all_users:
+                if getattr(usr, k) == v:
+                    return usr
+        raise NoResultFound
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user's attributes.
@@ -65,12 +73,12 @@ class DB:
                            to update.
         """
         try:
-            user = self.find_user_by(id=user_id)
+            usr = self.find_user_by(id=user_id)
         except NoResultFound:
-            raise ValueError
-        kwargs_set = set(kwargs)
-        user_attrs = set(user.__dict__)
-        if not kwargs_set.issubset(user_attrs):
-            raise ValueError
-        user.__dict__.update(kwargs)
+            raise ValueError()
+        for k, v in kwargs.items():
+            if hasattr(usr, k):
+                setattr(usr, k, v)
+            else:
+                raise ValueError
         self._session.commit()
