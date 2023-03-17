@@ -112,7 +112,7 @@ def main() -> None:
     cursor = db.cursor()
     cursor.execute('SELECT * FROM users;')
     for row in cursor:
-        logger.info(f'{row[0]}')
+        logger.info(f'{row}')
 
 
 if __name__ == "__main__":
