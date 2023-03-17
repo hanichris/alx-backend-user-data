@@ -111,7 +111,7 @@ def main() -> None:
     logger = get_logger()
     cursor = db.cursor()
     cursor.execute('SELECT * FROM users;')
-    fields = cursor.columns
+    fields = cursor.column_names
     for row in cursor:
         print(f'Column names: {fields}')
         print(f'Row: {row}')
