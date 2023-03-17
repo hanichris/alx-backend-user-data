@@ -62,7 +62,3 @@ class RedactingFormatter(logging.Formatter):
         msg = super(RedactingFormatter, self).format(record)
         return filter_datum(self.fields, self.REDACTION,
                             msg, self.SEPARATOR)
-
-
-def get_logger() -> logging.Logger:
-    pass
