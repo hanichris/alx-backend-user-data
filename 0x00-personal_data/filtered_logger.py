@@ -113,7 +113,7 @@ def main() -> None:
     cursor.execute('SELECT * FROM users;')
     fields = cursor.column_names
     for row in cursor:
-        msg = "".join([f'{key}={val}' for key, val in zip(fields, row)])
+        msg = "".join([f'{key}={val};' for key, val in zip(fields, row)])
         print(f'Message: {msg}')
 
 
