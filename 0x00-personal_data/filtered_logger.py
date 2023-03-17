@@ -103,3 +103,17 @@ def get_db() -> connection.MySQLConnection:
         'database': db
     }
     return connection.MySQLConnection(**config)
+
+
+def main() -> None:
+    """Retrieve all rows in the users table log to the console."""
+    db = get_db()
+    logger = get_logger()
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM users;')
+    for row in cursor:
+        logger.info(f'{row[0]}')
+
+
+if __name__ == "__main__":
+    main()
