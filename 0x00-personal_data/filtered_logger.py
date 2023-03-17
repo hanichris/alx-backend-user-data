@@ -114,7 +114,7 @@ def main() -> None:
     fields = cursor.column_names
     for row in cursor:
         msg = "".join([f'{key}={val};' for key, val in zip(fields, row)])
-        print(f'Message: {msg}')
+        logger.info(msg=msg)
 
 
 if __name__ == "__main__":
