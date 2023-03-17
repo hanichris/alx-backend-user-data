@@ -5,10 +5,11 @@ Regex is used to filter out log messages of certain field values.
 """
 import logging
 import re
+import sys
 from typing import List
 
 
-PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+PII_FIELDS = ("name", "email", "phone", "ssn", "ip")
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -62,3 +63,22 @@ class RedactingFormatter(logging.Formatter):
         msg = super(RedactingFormatter, self).format(record)
         return filter_datum(self.fields, self.REDACTION,
                             msg, self.SEPARATOR)
+
+
+def get_logger() -> logging.Logger:
+    """Returns a logger named `user_data` and logs upto `logging.INFO`.
+
+    This logger doesn't propagate messages to other loggers and has
+    a `StreamHandler` with `RedactingFormatter` as formatter. Uses
+    `PII_FIELDS` to parameterize the formatter.
+    """
+    logger = logging.get('user_data')
+    logger.propagate = False
+    logger.setLevel(logging.INFO)
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    formatter = RedactingFormatter(PII_FIELDS)
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+
+    return logger
