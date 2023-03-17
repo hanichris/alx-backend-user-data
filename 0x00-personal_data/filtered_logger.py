@@ -113,8 +113,7 @@ def main() -> None:
     cursor.execute('SELECT * FROM users;')
     fields = cursor.column_names
     for row in cursor:
-        print(f'Column names: {fields}')
-        print(f'Row: {row}')
+        print(f'Combined: {list(zip(fields, row))}')
 
 
 if __name__ == "__main__":
