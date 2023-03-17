@@ -111,8 +111,10 @@ def main() -> None:
     logger = get_logger()
     cursor = db.cursor()
     cursor.execute('SELECT * FROM users;')
+    fields = cursor.columns
     for row in cursor:
-        logger.info(f'{row}')
+        print(f'Column names: {fields}')
+        print(f'Row: {row}')
 
 
 if __name__ == "__main__":
