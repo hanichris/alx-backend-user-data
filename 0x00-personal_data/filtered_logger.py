@@ -4,8 +4,9 @@
 Regex is used to filter out log messages of certain field values.
 """
 import logging
+import os
 import re
-import sys
+from mysql.connector import connection
 from typing import List
 
 
@@ -82,3 +83,23 @@ def get_logger() -> logging.Logger:
     logger.addHandler(console_handler)
 
     return logger
+
+
+def get_db() -> connection.MySQLConnection:
+    """Obtain a connector to the database.
+
+    Return:
+        connection.MySQLConnection: connector to the database.
+    """
+    user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    pwd = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    db = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    config = {
+        'user': user,
+        'password': pwd,
+        'host': host,
+        'database': db
+    }
+    return connection.MySQLConnection(**config)
